@@ -1,0 +1,35 @@
+/* Root container styling for consistent padding */
+:host {
+    display: block;
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Header Styling */
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #3f51b5;
+    margin-bottom: 8px;
+  }
+  
+  /* Form Field Styling */
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  button {
+    margin-top: 16px;
+  }
+  
+  /* Error Message Styling */
+  .error-message {
+    color: red;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-top: 16px;
+  }
+  
+  
