@@ -6,7 +6,7 @@
       <h4>Total allocation cannot exceed 100%</h4>
     </div>
     }
-  <form [formGroup]="assetForm" (ngSubmit)="addAsset()" class="form-container">
+  <form [formGroup]="assetForm" (ngSubmit)="addAsset()" class="form-container" #form="ngForm">
     <!-- Asset Name Field -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Asset Name</mat-label>

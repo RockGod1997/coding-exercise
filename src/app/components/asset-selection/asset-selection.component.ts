@@ -1,5 +1,5 @@
-import { Component, inject} from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { Component, inject, ViewChild} from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, FormGroup, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { addAsset, selectTotalAllocation } from '../../store';
 import { PortfolioState } from '../../store';
@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, MatFormFieldModule]
 })
 export class AssetSelectionComponent {
+  @ViewChild('form') form!: NgForm;
   assetForm: FormGroup;
   private store = inject(Store<PortfolioState>); // Inject the NgRx Store with the PortfolioState
   totalAllocation = 0;
@@ -45,6 +46,7 @@ export class AssetSelectionComponent {
     const asset: Asset = this.assetForm.value;
     this.store.dispatch(addAsset({ asset }));
     this.limitBreached = false;
-    this.assetForm.reset({ name: ' ', allocation: 1 }); // Reset the form
+    this.assetForm.reset(); // Reset the form
+    this.form.resetForm();
   }
 }

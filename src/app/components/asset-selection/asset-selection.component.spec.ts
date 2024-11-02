@@ -76,7 +76,7 @@ describe('AssetSelectionComponent', () => {
     component.addAsset();
 
     // Check that form resets to the default values
-    expect(component.assetForm.get('name')?.value).toBe(' ');
-    expect(component.assetForm.get('allocation')?.value).toBe(1);
+    expect(component.assetForm.get('name')?.value).toBe(null);
+    expect(component.assetForm.get('allocation')?.value).toBe(null);
   });
 });
