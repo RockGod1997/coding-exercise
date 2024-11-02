@@ -1,34 +1,32 @@
-<div>
-  <h4>Add assets using add button</h4>
+<div class="flex-container">
+
+  <!-- Error Message for Limit Breach -->
+  @if(limitBreached) {
+    <div class="error-message">
+      <h4>Total allocation cannot exceed 100%</h4>
+    </div>
+    }
+  <form [formGroup]="assetForm" (ngSubmit)="addAsset()" class="form-container">
+    <!-- Asset Name Field -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Asset Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <!-- Allocation Field -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Allocation (%)</mat-label>
+      <input matInput type="number" formControlName="allocation" />
+    </mat-form-field>
+
+    <!-- Add Asset Button -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!assetForm.valid"
+    >
+      Add Asset
+    </button>
+  </form>
 </div>
-
-<form [formGroup]="assetForm" (ngSubmit)="addAsset()">
-  <!-- Asset Name Field -->
-  <mat-form-field appearance="outline">
-    <mat-label>Asset Name</mat-label>
-    <input matInput formControlName="name" />
-  </mat-form-field>
-
-  <!-- Allocation Field -->
-  <mat-form-field appearance="outline">
-    <mat-label>Allocation (%)</mat-label>
-    <input matInput type="number" formControlName="allocation" />
-  </mat-form-field>
-
-  <!-- Add Asset Button -->
-  <button
-    mat-raised-button
-    color="primary"
-    type="submit"
-    [disabled]="!assetForm.valid"
-  >
-    Add Asset
-  </button>
-</form>
-
-<!-- Error Message for Limit Breach -->
-@if(limitBreached) {
-  <div class="error-message">
-    <h4>Total allocation cannot exceed 100%</h4>
-  </div>
-}

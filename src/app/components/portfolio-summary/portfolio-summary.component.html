@@ -1,9 +1,14 @@
-<div>
-<p>Total Allocation: {{ totalAllocation$ | async }}%</p>
-<button mat-raised-button color="primary" (click)="savePortfolio()">
-  Save Portfolio
-</button>
-<button mat-raised-button color="warn" (click)="resetPortfolio()">
-  Reset Portfolio
-</button>
+<!--Button-Container -->
+<div class="outer-container">
+  <div class="flex-container">
+    <p>Total Allocation: {{ totalAllocation$ | async }}%</p>
+    <div class="button-group">
+      <button mat-raised-button color="primary" (click)="savePortfolio()">
+        Save Portfolio
+      </button>
+      <button mat-raised-button color="warn" (click)="resetPortfolio()">
+        Reset Portfolio
+      </button>
+    </div>
+  </div>
 </div>

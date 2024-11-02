@@ -1,4 +1,4 @@
-export type Asset ={
-    name: string;
-    allocation: number;
-  }
+export type Asset = {
+  name: string;
+  allocation: number;
+}

@@ -5,6 +5,7 @@ export interface PortfolioState {
   totalAllocation: number;
 }
 
+//initialise store
 export const initialPortfolioState: PortfolioState = {
   assets: [],
   totalAllocation: 0

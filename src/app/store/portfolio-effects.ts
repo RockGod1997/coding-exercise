@@ -2,14 +2,15 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { selectAllAssets, selectTotalAllocation } from './portfolio-selector';
-import {  map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { PortfolioState } from './portfolio-store';
 import { savePortfolio, resetPortfolio, loadPortfolio } from './portfolio-action';
 
 @Injectable()
 export class PortfolioEffects {
   actions$ = inject(Actions);
-  store=inject(Store<PortfolioState>)
+  store = inject(Store<PortfolioState>)
+
   // Effect to save portfolio to localStorage when 'savePortfolio' action is dispatched
   savePortfolio$ = createEffect(
     () =>
@@ -19,7 +20,7 @@ export class PortfolioEffects {
         tap(([_, assets, totalAllocation]) => {
           localStorage.setItem('portfolioAssets', JSON.stringify(assets));
           localStorage.setItem('portfolioTotalAllocation', JSON.stringify(totalAllocation));
-          console.log('Portfolio saved to localStorage');
+          console.log('Portfolio saved to local Storage');
         })
       ),
     { dispatch: false } // No further action dispatched
@@ -28,7 +29,7 @@ export class PortfolioEffects {
   // Effect to load portfolio from localStorage when the app starts
   loadPortfolio$ = createEffect(() =>
     this.actions$.pipe(
-      ofType('@ngrx/effects/init'), // This triggers on app initialization
+      ofType('@ngrx/effects/init'), //  triggers on app initialization
       map(() => {
         const savedAssets = localStorage.getItem('portfolioAssets');
         const savedTotalAllocation = localStorage.getItem('portfolioTotalAllocation');
@@ -36,9 +37,11 @@ export class PortfolioEffects {
         if (savedAssets && savedTotalAllocation) {
           const assets = JSON.parse(savedAssets);
           const totalAllocation = JSON.parse(savedTotalAllocation);
+          console.log("Portfolio loaded from local Storage");
           return loadPortfolio({ assets, totalAllocation });
         } else {
-          return { type: '[Portfolio] No Load Needed' }; // Return a dummy action if no data found
+          console.log("No load needed")
+          return { type: '[Portfolio] No Load Needed' }; 
         }
       })
     )
@@ -52,7 +55,7 @@ export class PortfolioEffects {
         tap(() => {
           localStorage.removeItem('portfolioAssets');
           localStorage.removeItem('portfolioTotalAllocation');
-          console.log('Portfolio cleared from localStorage');
+          console.log('Portfolio cleared from local Storage');
         })
       ),
     { dispatch: false }

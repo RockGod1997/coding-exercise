@@ -1,0 +1,27 @@
+.outer-container {
+  display: flex;
+  justify-content: center;
+
+  // portfolio-summary container
+  .flex-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    background-color: #fff;
+    width: 50%;
+    max-width: 400px;
+    padding: 20px;
+    align-items: center;
+
+    //Button group container
+    .button-group { 
+      justify-content: center;
+      gap: 10px;
+      display: flex;
+    }
+  }
+}

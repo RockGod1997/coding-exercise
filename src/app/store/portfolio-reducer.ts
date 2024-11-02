@@ -4,7 +4,7 @@ import { initialPortfolioState } from './portfolio-store';
 
 export const portfolioReducer = createReducer(
   initialPortfolioState,
-  on(addAsset, (state, { asset }) => {
+  on(addAsset, (state, { asset }) => { // adds assets to the store
     const newTotalAllocation = state.totalAllocation + asset.allocation;
 
     if (newTotalAllocation > 100) {
@@ -17,8 +17,8 @@ export const portfolioReducer = createReducer(
       totalAllocation: newTotalAllocation
     };
   }),
-  on(resetPortfolio, () => initialPortfolioState),
-  on(loadPortfolio, (state, { assets, totalAllocation }) => ({
+  on(resetPortfolio, () => initialPortfolioState), // resets the store
+  on(loadPortfolio, (state, { assets, totalAllocation }) => ({ // loads the store 
     ...state,
     assets,
     totalAllocation

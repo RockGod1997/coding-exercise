@@ -1,3 +1,4 @@
+<!-- Tab Group -->
 <mat-tab-group>
   <mat-tab label="Asset Selection">
     <app-asset-selection></app-asset-selection>
@@ -6,15 +7,14 @@
     <app-portfolio-summary></app-portfolio-summary>
   </mat-tab>
 </mat-tab-group>
-<mat-table [dataSource]="(assets$ | async) || []">
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Asset Name </mat-header-cell>
-    <mat-cell *matCellDef="let asset"> {{ asset.name }} </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="allocation">
-    <mat-header-cell *matHeaderCellDef> Allocation (%) </mat-header-cell>
-    <mat-cell *matCellDef="let asset"> {{ asset.allocation }}% </mat-cell>
-  </ng-container>
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-</mat-table>
+
+<!--Asset Table -->
+<div class="container">
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    [rowData]="assets$ | async"
+    [columnDefs]="columnDefs"
+    [domLayout]="'autoHeight'"
+    [defaultColDef]="defaultColDef"
+  />
+</div>
