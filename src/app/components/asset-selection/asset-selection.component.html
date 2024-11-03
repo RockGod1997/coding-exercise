@@ -1,21 +1,36 @@
 <div class="flex-container">
-
   <!-- Error Message for Limit Breach -->
   @if(limitBreached) {
-    <div class="error-message">
-      <h4>Total allocation cannot exceed 100%</h4>
-    </div>
-    }
-  <form [formGroup]="assetForm" (ngSubmit)="addAsset()" class="form-container" #form="ngForm">
+  <div class="error-message">
+    <span>Total allocation cannot exceed 100%</span>
+  </div>
+  }
+  <form
+    [formGroup]="assetForm"
+    (ngSubmit)="addAsset()"
+    class="form-container"
+    #form="ngForm"
+  >
     <!-- Asset Name Field -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Asset Name</mat-label>
+      @if (assetForm.get('name')?.hasError('required') &&
+      (assetForm.get('name')?.touched || assetForm.get('name')?.dirty)) {
+      <mat-error> Please enter a name. </mat-error>
+      }
       <input matInput formControlName="name" />
     </mat-form-field>
 
     <!-- Allocation Field -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Allocation (%)</mat-label>
+      @if((assetForm.get('allocation')?.hasError('min') ||
+      assetForm.get('allocation')?.hasError('max') ||
+      assetForm.get('allocation')?.hasError('required')) &&
+      (assetForm.get('allocation')?.touched ||
+      assetForm.get('allocation')?.dirty)){
+      <mat-error> Please enter a value between 1 and 100. </mat-error>
+      }
       <input matInput type="number" formControlName="allocation" />
     </mat-form-field>
 
