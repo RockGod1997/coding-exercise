@@ -60,7 +60,7 @@ export class PortfolioEffects {
       )
   );
 
-  // Effect to open SnackBar
+  // Effect to open SnackBar when a message is dispatched
   showSnackbar$ = createEffect(
     () =>
       this.actions$.pipe(

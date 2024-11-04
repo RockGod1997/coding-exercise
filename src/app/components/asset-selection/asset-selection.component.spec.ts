@@ -5,7 +5,7 @@ import { addAsset, messageAction } from '../../store';
 import { selectTotalAllocation } from '../../store';
 import { Asset } from '../..//models';
 import { AssetSelectionComponent } from './asset-selection.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('AssetSelectionComponent', () => {
   let component: AssetSelectionComponent;
@@ -17,7 +17,7 @@ describe('AssetSelectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule,AssetSelectionComponent,BrowserAnimationsModule],
+      imports: [ReactiveFormsModule, AssetSelectionComponent, BrowserAnimationsModule],
       providers: [
         provideMockStore({ initialState }),
         FormBuilder
@@ -29,7 +29,7 @@ describe('AssetSelectionComponent', () => {
     fixture = TestBed.createComponent(AssetSelectionComponent);
     component = fixture.componentInstance;
 
-    store.overrideSelector(selectTotalAllocation, 0); 
+    store.overrideSelector(selectTotalAllocation, 0);
     fixture.detectChanges();
   });
 
@@ -53,12 +53,12 @@ describe('AssetSelectionComponent', () => {
     // Set form values that will exceed the limit
     component.assetForm.setValue({ name: 'Test Asset', allocation: 20 });
     component.addAsset();
-    expect(dispatchSpy).toHaveBeenCalledWith(messageAction({message:'Total allocation limit cannot exceed 100%.'}))
+    expect(dispatchSpy).toHaveBeenCalledWith(messageAction({ message: 'Total allocation limit cannot exceed 100%.' }))
   });
 
   it('should dispatch addAsset action when form is valid and within limit', () => {
     const dispatchSpy = spyOn(store, 'dispatch');
-    
+
     component.assetForm.setValue({ name: 'Test Asset', allocation: 10 });
     component.addAsset();
 

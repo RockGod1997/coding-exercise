@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PortfolioSummaryComponent } from './portfolio-summary.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { resetPortfolio, savePortfolio } from '../../store';
 describe('PortfolioSummaryComponent', () => {
@@ -10,11 +10,11 @@ describe('PortfolioSummaryComponent', () => {
   let store: MockStore;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PortfolioSummaryComponent,BrowserAnimationsModule],
+      imports: [PortfolioSummaryComponent, BrowserAnimationsModule],
       providers: [
         provideMockStore({ initialState })]
     })
-    .compileComponents();
+      .compileComponents();
     store = TestBed.inject(MockStore);
     fixture = TestBed.createComponent(PortfolioSummaryComponent);
     component = fixture.componentInstance;

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { addAsset, loadPortfolio, resetPortfolio} from './portfolio-action';
+import { addAsset, loadPortfolio, resetPortfolio } from './portfolio-action';
 import { initialPortfolioState } from './portfolio-store';
 
 export const portfolioReducer = createReducer(
