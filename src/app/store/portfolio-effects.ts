@@ -6,6 +6,7 @@ import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { PortfolioState } from './portfolio-store';
 import { savePortfolio, resetPortfolio, loadPortfolio, messageAction } from './portfolio-action';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { portfolioReset, portfolioSaved } from '../models';
 
 @Injectable()
 export class PortfolioEffects {
@@ -22,7 +23,7 @@ export class PortfolioEffects {
         map(([_, assets, totalAllocation]) => {
           localStorage.setItem('portfolioAssets', JSON.stringify(assets));
           localStorage.setItem('portfolioTotalAllocation', JSON.stringify(totalAllocation));
-          return messageAction({ message: 'Portfolio saved successfully.' });
+          return messageAction({ message: portfolioSaved });
         })
       )
   );
@@ -55,7 +56,7 @@ export class PortfolioEffects {
         map(() => {
           localStorage.removeItem('portfolioAssets');
           localStorage.removeItem('portfolioTotalAllocation');
-          return messageAction({ message: 'Portfolio resetted successfully.' });
+          return messageAction({ message: portfolioReset });
         })
       )
   );
