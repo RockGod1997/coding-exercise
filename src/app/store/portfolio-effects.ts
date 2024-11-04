@@ -5,13 +5,15 @@ import { selectAllAssets, selectTotalAllocation } from './portfolio-selector';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { PortfolioState } from './portfolio-store';
 import { savePortfolio, resetPortfolio, loadPortfolio, messageAction } from './portfolio-action';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class PortfolioEffects {
   actions$ = inject(Actions);
   store = inject(Store<PortfolioState>)
+  snackBar = inject(MatSnackBar)
 
-  // Effect to save portfolio to localStorage when 'savePortfolio' action is dispatched
+  // Effect to save portfolio to localStorage on savePortfolio
   savePortfolio$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -20,7 +22,7 @@ export class PortfolioEffects {
         map(([_, assets, totalAllocation]) => {
           localStorage.setItem('portfolioAssets', JSON.stringify(assets));
           localStorage.setItem('portfolioTotalAllocation', JSON.stringify(totalAllocation));
-          return messageAction({message:'Portfolio saved successfully.'});
+          return messageAction({ message: 'Portfolio saved successfully.' });
         })
       )
   );
@@ -36,11 +38,10 @@ export class PortfolioEffects {
         if (savedAssets && savedTotalAllocation) {
           const assets = JSON.parse(savedAssets);
           const totalAllocation = JSON.parse(savedTotalAllocation);
-         console.log('Portfolio loaded from local Storage');
+          console.log('Portfolio loaded from local Storage');
           return loadPortfolio({ assets, totalAllocation });
         } else {
-          console.log("No load needed");
-          return  messageAction({message:''}); 
+          return messageAction({ message: '' });
         }
       })
     )
@@ -54,8 +55,26 @@ export class PortfolioEffects {
         map(() => {
           localStorage.removeItem('portfolioAssets');
           localStorage.removeItem('portfolioTotalAllocation');
-          return  messageAction({message:'Portfolio resetted successfully.'});
+          return messageAction({ message: 'Portfolio resetted successfully.' });
         })
       )
+  );
+
+  // Effect to open SnackBar
+  showSnackbar$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(messageAction),
+        tap((action) => {
+          if (action.message) {
+            this.snackBar.open(action.message, 'Close', {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
+          }
+        })
+      ),
+    { dispatch: false }
   );
 }

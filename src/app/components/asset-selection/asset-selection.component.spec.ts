@@ -53,8 +53,7 @@ describe('AssetSelectionComponent', () => {
     // Set form values that will exceed the limit
     component.assetForm.setValue({ name: 'Test Asset', allocation: 20 });
     component.addAsset();
-    expect(dispatchSpy).toHaveBeenCalledWith(messageAction({message:'Total allocation limit exceeded 100%.'}))
-    expect(component.assetForm.valid).toBeTrue();
+    expect(dispatchSpy).toHaveBeenCalledWith(messageAction({message:'Total allocation limit cannot exceed 100%.'}))
   });
 
   it('should dispatch addAsset action when form is valid and within limit', () => {

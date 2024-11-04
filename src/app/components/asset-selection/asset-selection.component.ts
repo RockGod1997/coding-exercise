@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { addAsset, messageAction, selectTotalAllocation } from '../../store';
+import { addAsset, messageAction, selectAllAssets, selectTotalAllocation } from '../../store';
 import { PortfolioState } from '../../store';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,11 +38,13 @@ export class AssetSelectionComponent {
   // Adds asset to the store
   addAsset() {
     if (this.totalAllocation + this.assetForm.get('allocation')?.value > 100) {
-      this.store.dispatch(messageAction({message:'Total allocation limit exceeded 100%.'}));
-      return;
+      this.store.dispatch(messageAction({ message: 'Total allocation limit cannot exceed 100%.' }));
     }
-    const asset: Asset = this.assetForm.value;
-    this.store.dispatch(addAsset({ asset }));
+    else {
+      const asset: Asset = this.assetForm.value;
+      this.store.dispatch(addAsset({ asset }));
+    }
+
     this.assetForm.reset(); // Reset the form
     this.form.resetForm();
   }

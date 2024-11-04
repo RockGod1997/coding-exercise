@@ -5,4 +5,4 @@ export const addAsset = createAction('Add Asset', props<{ asset: Asset }>());
 export const resetPortfolio = createAction('Reset Portfolio');
 export const savePortfolio = createAction('Save Portfolio');
 export const loadPortfolio = createAction('Load Portfolio', props<{ assets: Asset[]; totalAllocation: number }>());
-export const messageAction = createAction('Error message', props<{ message: string }>());
+export const messageAction = createAction('Message', props<{ message: string }>());
