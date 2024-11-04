@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { selectAllAssets, selectTotalAllocation } from './portfolio-selector';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { PortfolioState } from './portfolio-store';
-import { savePortfolio, resetPortfolio, loadPortfolio } from './portfolio-action';
+import { savePortfolio, resetPortfolio, loadPortfolio, messageAction } from './portfolio-action';
 
 @Injectable()
 export class PortfolioEffects {
@@ -17,13 +17,12 @@ export class PortfolioEffects {
       this.actions$.pipe(
         ofType(savePortfolio),
         withLatestFrom(this.store.select(selectAllAssets), this.store.select(selectTotalAllocation)),
-        tap(([_, assets, totalAllocation]) => {
+        map(([_, assets, totalAllocation]) => {
           localStorage.setItem('portfolioAssets', JSON.stringify(assets));
           localStorage.setItem('portfolioTotalAllocation', JSON.stringify(totalAllocation));
-          console.log('Portfolio saved to local Storage');
+          return messageAction({message:'Portfolio saved successfully.'});
         })
-      ),
-    { dispatch: false } // No further action dispatched
+      )
   );
 
   // Effect to load portfolio from localStorage when the app starts
@@ -37,11 +36,11 @@ export class PortfolioEffects {
         if (savedAssets && savedTotalAllocation) {
           const assets = JSON.parse(savedAssets);
           const totalAllocation = JSON.parse(savedTotalAllocation);
-          console.log("Portfolio loaded from local Storage");
+         console.log('Portfolio loaded from local Storage');
           return loadPortfolio({ assets, totalAllocation });
         } else {
-          console.log("No load needed")
-          return { type: '[Portfolio] No Load Needed' }; 
+          console.log("No load needed");
+          return  messageAction({message:''}); 
         }
       })
     )
@@ -52,12 +51,11 @@ export class PortfolioEffects {
     () =>
       this.actions$.pipe(
         ofType(resetPortfolio),
-        tap(() => {
+        map(() => {
           localStorage.removeItem('portfolioAssets');
           localStorage.removeItem('portfolioTotalAllocation');
-          console.log('Portfolio cleared from local Storage');
+          return  messageAction({message:'Portfolio resetted successfully.'});
         })
-      ),
-    { dispatch: false }
+      )
   );
 }

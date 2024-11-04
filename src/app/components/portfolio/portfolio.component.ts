@@ -6,11 +6,11 @@ import { PortfolioSummaryComponent } from "../portfolio-summary/portfolio-summar
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Asset } from '../../models';
-import { PortfolioState, selectAllAssets } from '../../store';
+import { PortfolioState, selectAllAssets, selectMessage } from '../../store';
 import { CommonModule } from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-portfolio',
   standalone: true,
@@ -21,8 +21,16 @@ import { ColDef } from 'ag-grid-community';
 export class PortfolioComponent {
   private store = inject(Store<PortfolioState>); // Inject the NgRx store
   assets$: Observable<Asset[]> = this.store.select(selectAllAssets); // Observable to get assets from store
- 
-  //define the Table Header
+  message$: Observable<any> = this.store.select(selectMessage); // Observable to get messages from store
+  constructor(private snackBar: MatSnackBar) {
+    this.message$.subscribe((message) => {
+      if (message) {
+        this.openSnackBar(message, 'Close')
+      }
+    });
+  }
+
+  // Define the Table Header
   columnDefs: ColDef[] = [
     { field: 'name', headerName: 'Asset Name', sortable: true, filter: false },
     { field: 'allocation', headerName: 'Allocation (%)', sortable: true, filter: false, valueFormatter: params => `${params.value}%` }
@@ -35,4 +43,13 @@ export class PortfolioComponent {
     sortable: true,
     filter: false,
   };
+
+  // Opens the angular material snackbar
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
 }

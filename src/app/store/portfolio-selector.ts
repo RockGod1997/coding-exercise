@@ -12,3 +12,9 @@ export const selectTotalAllocation = createSelector( // returns total allocation
   selectPortfolioState,
   (state: PortfolioState) => state?.totalAllocation
 );
+
+
+export const selectMessage = createSelector( // returns total allocation
+  selectPortfolioState,
+  (state: PortfolioState) => state?.message
+);

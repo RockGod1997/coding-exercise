@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { addAsset } from '../../store';
+import { addAsset, messageAction } from '../../store';
 import { selectTotalAllocation } from '../../store';
 import { Asset } from '../..//models';
 import { AssetSelectionComponent } from './asset-selection.component';
@@ -29,8 +29,8 @@ describe('AssetSelectionComponent', () => {
     fixture = TestBed.createComponent(AssetSelectionComponent);
     component = fixture.componentInstance;
 
-    store.overrideSelector(selectTotalAllocation, 0);
-    fixture.detectChanges(); // Initialize the component
+    store.overrideSelector(selectTotalAllocation, 0); 
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -45,17 +45,16 @@ describe('AssetSelectionComponent', () => {
     expect(allocationControl?.value).toBe(null);
   });
 
-  it('should mark limitBreached as true if total allocation exceeds 100%', () => {
+  it('should dispatch message if total allocation exceeds 100%', () => {
     // Set total allocation to 90% to simulate nearing the limit
     store.overrideSelector(selectTotalAllocation, 90);
     store.refreshState();
-
+    const dispatchSpy = spyOn(store, 'dispatch');
     // Set form values that will exceed the limit
     component.assetForm.setValue({ name: 'Test Asset', allocation: 20 });
     component.addAsset();
-
-    expect(component.limitBreached).toBeTrue();
-    expect(component.assetForm.valid).toBeTrue(); // Form should still be valid, but limit breached
+    expect(dispatchSpy).toHaveBeenCalledWith(messageAction({message:'Total allocation limit exceeded 100%.'}))
+    expect(component.assetForm.valid).toBeTrue();
   });
 
   it('should dispatch addAsset action when form is valid and within limit', () => {
@@ -63,9 +62,6 @@ describe('AssetSelectionComponent', () => {
     
     component.assetForm.setValue({ name: 'Test Asset', allocation: 10 });
     component.addAsset();
-
-    // Expect limitBreached to be false
-    expect(component.limitBreached).toBeFalse();
 
     // Verify that addAsset action is dispatched
     expect(dispatchSpy).toHaveBeenCalledWith(addAsset({ asset: { name: 'Test Asset', allocation: 10 } as Asset }));

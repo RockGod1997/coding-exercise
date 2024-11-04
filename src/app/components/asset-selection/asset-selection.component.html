@@ -1,10 +1,4 @@
 <div class="flex-container">
-  <!-- Error Message for Limit Breach -->
-  @if(limitBreached) {
-  <div class="error-message">
-    <span>Total allocation cannot exceed 100%</span>
-  </div>
-  }
   <form
     [formGroup]="assetForm"
     (ngSubmit)="addAsset()"
