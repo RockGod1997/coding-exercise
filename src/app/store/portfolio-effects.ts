@@ -42,7 +42,7 @@ export class PortfolioEffects {
           console.log('Portfolio loaded from local Storage');
           return loadPortfolio({ assets, totalAllocation });
         } else {
-          return messageAction({ message: '' });
+          return { type: 'No Load Needed' };
         }
       })
     )

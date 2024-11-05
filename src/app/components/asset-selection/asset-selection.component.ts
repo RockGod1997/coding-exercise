@@ -5,7 +5,7 @@ import { addAsset, messageAction, selectTotalAllocation } from '../../store';
 import { PortfolioState } from '../../store';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 import { Asset, limitBreached } from '../../models';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -37,8 +37,8 @@ export class AssetSelectionComponent {
         this.store.dispatch(messageAction({ message: limitBreached }));
         return;
       }
+      this.store.dispatch(addAsset({ asset }));
     })
-    this.store.dispatch(addAsset({ asset }));
 
     // Reset the form
     this.assetForm.reset();
